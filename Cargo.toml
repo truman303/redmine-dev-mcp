@@ -1,0 +1,20 @@
+[package]
+name = "redmine-dev-mcp"
+version = "0.1.0"
+edition = "2024"
+# let-chains in client.rs
+rust-version = "1.88"
+description = "Token-cheap MCP server for Redmine"
+
+[dependencies]
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "rustls-tls-native-roots", "system-proxy"] }
+rmcp = { version = "=3.5.1", features = ["server", "macros", "schemars", "transport-io"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "time"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3.23", default-features = false, features = ["fmt", "std", "env-filter", "ansi"] }
+
+[dev-dependencies]
+wiremock = "0.6"

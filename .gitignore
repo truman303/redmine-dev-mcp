@@ -1,0 +1,11 @@
+/target
+.DS_Store
+
+# local config and secrets
+.env
+.env.*
+
+# editors
+.idea/
+.vscode/
+*.swp
