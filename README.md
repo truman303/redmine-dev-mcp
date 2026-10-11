@@ -1,6 +1,6 @@
-# redmine-dev-mcp
+# A basic, token conscious Redmine MCP server
 
-An MCP server for Redmine. The binary is static. Running it needs no Node and no extra runtime.
+An MCP server for the Redmine project management API. The binary is static. Running it needs no Node and no extra runtime.
 
 Token cost is the constraint. `get_issue` defaults to a summary and does not fetch journals. A summary of a heavily edited issue is 768 bytes. The uncapped payload of that issue was 286 KB. List rows drop descriptions and empty custom fields. Counts and cross-tabs are computed in this process, so those rows never reach the model. An unknown status or custom field value is an error that lists the valid names. Redmine answers that typo with zero rows, which looks like a real empty result.
 
