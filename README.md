@@ -1,6 +1,6 @@
 # A basic, token conscious Redmine MCP server
 
-An MCP server for the Redmine project management API. The binary is static. Running it needs no Node and no extra runtime.
+An MCP server for the Redmine project management API. It compiles to a single binary. Running it needs no Node and no extra runtime.
 
 Token cost is the constraint. `get_issue` defaults to a summary and does not fetch journals. A summary of a heavily edited issue is 768 bytes. The uncapped payload of that issue was 286 KB. List rows drop descriptions and empty custom fields. Counts and cross-tabs are computed in this process, so those rows never reach the model. An unknown status or custom field value is an error that lists the valid names. Redmine answers that typo with zero rows, which looks like a real empty result.
 
@@ -16,6 +16,16 @@ cargo build
 ```
 
 `cargo clean` removes the `target` directory. It does not uninstall Rust.
+
+### Building a Linux binary with Docker
+
+To build a Linux binary from macOS without a Linux machine, run:
+
+```bash
+./scripts/build-linux.sh
+```
+
+That runs the tests and builds inside `rust:1.88-bullseye` (glibc 2.31, compatible with Ubuntu 20.04 and newer), writes the binary to `dist/linux-amd64/redmine-dev-mcp`, and smoke-tests it on `ubuntu:22.04`. Pass `arm64` for a `linux/arm64` build. Anyone who downloads the binary over chat or HTTP may need `chmod +x redmine-dev-mcp` before running it.
 
 ## Install
 
@@ -124,7 +134,7 @@ To see the server's debug log, add `-e RUST_LOG=redmine_dev_mcp=debug`. It logs 
 
 ## Use with Claude Desktop
 
-Edit `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, or `%APPDATA%\Claude\claude_desktop_config.json` on Windows. Use the binary's full path, because Claude Desktop doesn't read your shell profile:
+Edit `~/Library/Application Support/Claude/claude_desktop_config.json` on macOS, `~/.config/Claude/claude_desktop_config.json` on Linux, or `%APPDATA%\Claude\claude_desktop_config.json` on Windows. Use the binary's full path, because Claude Desktop doesn't read your shell profile:
 
 ```json
 {
